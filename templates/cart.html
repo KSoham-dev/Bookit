@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>{{user.f_name}} | Profile</title>
+    <style>
+        @import url("../static/style.css");
+        .leftcolup{
+      background-image: url("../static/userbg.png");
+    }
+    .inp{
+        width: 500px
+    }
+    .submit{
+        width: 250px;
+    }
+   </style>
+</head>
+<body>
+    <nav class="navbar">
+        <img class="imglogo" class="logohome" src="../static/Bookitwh.png" />
+        
+        <form autocomplete="off" class="d-flex search" role="search" method="POST" action="/{{user.usr_id}}/search">
+            <input class="inp1" type="search" name="search" placeholder="&#x1F50E;&#xFE0E; Type and press enter to search">
+        </form>
+    
+        <div class="linklist">
+            <ul>
+                <li class="navbar_links">   <a href="/{{user.usr_id}}/home" class="navicons"> <img src="../../static/home-5-line.png" alt="home icon"/> </a></li>
+                {% if user.role == librarian %}
+                    <li class="navbar_links">  <a href="/lib/{{user.usr_id}}/profile" class="navicons" > <img src="../../static/user-line.png" alt="user icon"/> Hello, {{user.f_name}} </a> </li>
+
+                {% else %}
+                    <li class="navbar_links">  <a href="/{{user.usr_id}}/profile" class="navicons" > <img src="../../static/user-line.png" alt="user icon"/> Hello, {{user.f_name}} </a> </li>
+                {% endif %}
+                {% if user.role == "user" %}
+                    <li class="navbar_links">   <a href="/{{user.usr_id}}/cart" class="navicons" style="border-bottom: 2px solid rgb(255,255,255); padding: 10px;"> <img src="../../static/shopping-cart-line.png" alt="shopping cart"/> </a></li>
+                {% endif %}
+                <li class="navbar_links">   <a href="/{{user.usr_id}}/logout" class="navicons"> <img src="../../static/logout.png" alt="logout"/> </a></li>
+        </ul>
+        </div>
+    </nav>
+
+    <div class="bgup">
+
+            <div class="row mainrowup">
+                
+                <div class="col-5 leftcolup">
+                    <div class="lefttextup">
+                        <img src="../static/user-line-black-big.png" alt="Big user icon" class="usriconup"/>
+                        <span class="usernameup"><h1 class="display-6">{{user.f_name}}  {{user.l_name}}</h1></span>
+                        <span class="emailup"><h5>{{user.email}}</h5></span>
+                        <div class="usrmenu">
+                            <ul style="list-style-type: none;">
+                                    <li class="usrmenu_links">   <a href="/{{user.usr_id}}/profile"> Edit Profile </a></li><br/>
+                                    <li class="usrmenu_links">  <a href="/{{user.usr_id}}/books"> My Books </a> </li><br/>
+                                    <li class="usrmenu_links">   <a href="/{{user.usr_id}}/books_req" > Books requested </a></li><br/>
+
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                    
+                <div class="col rightcolup updtable">
+                    <header class="display-4""> My Cart </header><br /><br /><br />
+                    {% if cart %}
+                        {% if products %}
+                            <table class="table">
+                                <thead>
+                                    <th scope="col"> Index </th>
+                                    <th scope="col"> Product </th>
+                                    <th scope="col"> Price </th>
+                                    <th scope="col"> Action </th>
+                                </thead>
+                                {% set nsp=namespace(total=0) %}
+                                {% for p in products %}
+                                    {% set nsp.total = nsp.total+p.price %}
+                                    <tbody>
+                                        <tr>
+                                            <th> {{loop.index}} </th>
+                                            <td> {{p.book_name}} </td>
+                                            <td> {{p.price}} </td>
+                                            <td> <a href="/{{user.usr_id}}/remove_from_cart/{{p.book_id}}" class="btn btn-outline-primary btn-sm"> Remove </a> </td>
+                                        </tr>
+                                    </tbody>
+                                {% endfor %}
+                            </table>
+                            <div class="total" style="text-align: right; margin: 30px 110px 0 0;">
+                                <strong> Total Price: </strong> {{nsp.total}}
+                            </div>
+                            <div class="buybtn">
+                                <form autocomplete="off" method="POST" action="/bulk_buy">
+                                    <select name="cart" multiple hidden>
+                                        {% for p in products %}
+                                            <option value="{{p.content}}" selected>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="submit" class="btn btn-outline-primary btn-lg submit" value="Buy All" style="margin-top: 50px;">
+                                </form>
+                            </div>
+                        {% else %}
+                        <div class="msg">
+                            No products in Cart
+                        </div>
+                        <div class="create_cart">
+                            <a href="/{{user.usr_id}}/home" class="btn btn-outline-primary btn-large" style="margin-top: 80px;"> Add Now </a>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                    <div class="msg">
+                        No cart created
+                    </div>
+                        <div class="create_cart">
+                            <a href="/{{user.usr_id}}/create_cart" class="btn btn-outline-primary btn-large" style="margin-top: 80px;"> Create Cart </a>
+                        </div>
+                    {% endif %}
+                    
+                </div>
+        </div>
+    <footer>
+        <img src="../static/copyright-line.png"> Bookit, 2024. All rights reserved
+        <a href="/about" style="color: rgb(255,255,255); position: absolute; left: 1300px;"> About us </a>
+    </footer>
+</body>
+</html>

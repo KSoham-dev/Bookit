@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>{{user.f_name}} | Profile</title>
+    <style>
+        @import url("../../../static/style.css");
+        .leftcolup{
+      background-image: url("../../../static/libbg.png");
+    }
+    .inp{
+        width: 500px
+    }
+    .submit{
+        width: 250px;
+    }
+   </style>
+</head>
+<body>
+    <nav class="navbar">
+        <img class="imglogo" class="logohome" src="../../../static/Bookitwh.png" />
+        
+        <form autocomplete="off" class="d-flex search" role="search" method="POST" action="/{{user.usr_id}}/search">
+            <input class="inp1" type="search" name="search" placeholder="&#x1F50E;&#xFE0E; Type and press enter to search">
+        </form>
+    
+        <div class="linklist">
+            <ul>
+                <li class="navbar_links">   <a href="/{{user.usr_id}}/home" class="navicons"> <img src="../../../static/home-5-line.png" alt="home icon"/> </a></li>
+                {% if user.role == "librarian" %}
+                    <li class="navbar_links">  <a href="/lib/{{user.usr_id}}/profile" class="navicons" style="border-bottom: 2px solid rgb(255,255,255); padding: 10px;"> <img src="../../../static/user-line.png" alt="user icon"/> Hello, {{user.f_name}} </a> </li>
+                
+                {% else %}
+                    <li class="navbar_links">  <a href="/{{user.usr_id}}/profile" class="navicons" style="border-bottom: 2px solid rgb(255,255,255); padding: 10px;"> <img src="../../../static/user-line.png" alt="user icon"/> Hello, {{user.f_name}} </a> </li>
+                {% endif %}
+                {% if user.role == "user" %}
+                    <li class="navbar_links">   <a href="/{{user.usr_id}}/cart" class="navicons"> <img src="../../../static/shopping-cart-line.png" alt="shopping cart"/> </a></li>
+                {% endif %}
+<li class="navbar_links">   <a href="/{{user.usr_id}}/logout" class="navicons"> <img src="../../../static/logout.png" alt="logout"/> </a></li>
+        </ul>
+        </div>
+    </nav>
+
+    <div class="bgup">
+
+            <div class="row mainrowup">
+                
+                <div class="col-5 leftcolup">
+                    <div class="lefttextup">
+                        <img src="../../../static/user-line-black-big.png" alt="Big user icon" class="usriconup"/>
+                        <span class="usernameup"><h1 class="display-6">{{user.f_name}}  {{user.l_name}}</h1></span>
+                        <span class="emailup"><h5>{{user.email}}</h5></span>
+                        <div class="usrmenu">
+                            <ul style="list-style-type: none;">
+                                    <li class="usrmenu_links">   <a href="/lib/{{user.usr_id}}/profile" > Edit Profile </a></li><br/>
+                                    <li class="usrmenu_links">   <a href="/{{user.usr_id}}/lib/see_req_lib" > Book Requests </a></li><br/>
+                                    <li class="usrmenu_links">  <a href="/{{user.usr_id}}/all_books" >  Books </a> </li><br/>
+                                    <li class="usrmenu_links">   <a href="/{{user.usr_id}}/lib/sections" style="border-bottom: 2px solid rgb(0,0,0); padding-bottom: 10px;"> Sections </a></li><br/>
+                                    <li class="usrmenu_links">   <a href="/{{user.usr_id}}/lib/books_issued" > Books Issued </a></li><br/>
+                                   <li class="usrmenu_links">   <a href="/{{user.usr_id}}/lib/stats" > Statistics </a></li><br/>
+<li class="usrmenu_links">   <a href="/{{user.usr_id}}/lib/authors" > Authors </a></li><br/>
+
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                    
+                <div class="col rightcolup updtfrm">
+                    <header class="display-4""> Update Section Details </header><br /><br /><br />
+                    <form autocomplete="off" method="POST" enctype="multipart/form-data">
+                        <strong><label for="uptid" style="position: relative; right: 275px;"> Section ID </label></strong><br /><br />
+                        <input type="text" name="uptid" placeholder="{{section.section_id}}" class="inp" disabled><br /><br /><br />
+                        <strong><label for="uptname" style="position: relative; right: 260px;"> Section Name </label></strong><br /><br />
+                        <input type="text" name="uptname" placeholder="Section Name" class="inp" value="{{section.section_name}}" required><br /><br /><br />
+                        <strong><label for="uptdesc" style="position: relative; right: 225px;"> Section Description </label></strong><br /><br />
+                        <input type="text" name="uptdesc" placeholder="Section Description" class="inp" value="{{section.section_description}}" required><br /><br /><br />
+                        <input type="submit" value="Update" class="submit">
+                    </form>
+                </div>
+            </div>
+    </div>
+    <footer style="position: relative; top:200px">
+        <img src="../../../static/copyright-line.png"> Bookit, 2024. All rights reserved
+        <a href="/about" style="color: rgb(255,255,255); position: absolute; left: 1300px;"> About us </a>
+    </footer>
+</body>
+</html>

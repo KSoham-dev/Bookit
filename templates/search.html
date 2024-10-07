@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title> Seacrh Results </title>
+    <style>
+        @import url(../static/style.css);
+    </style>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 20px;">
+        <h1 class="display-3"> Search Results </h1>
+            {% if flag_books %}
+                <table class="table" style="margin-top: 50px;">
+                    <thead>
+                        <th scope="col"> Index </th>
+                        <th scope="col"> Book Name </th>
+                        <th scope="col"> Book Description </th>
+                        <th scope="col"> Authors </th>
+                        <th scope="col"> Price </th>
+                    </thead>
+                    {% for r in results %}
+                                    <tbody>
+                                        <tr>
+                                            <th> {{loop.index}} </th>
+                                            <td> {{r.book_name}} </td>
+                                            <td> {{r.book_description}} </td>
+                                            <td> 
+                                                {% for author in r.author %} 
+                                                {{author.author_name}}
+                                                {% if not loop.last %}
+                                                    ,
+                                                {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                            <td> {{r.price}} </td>
+                                         </tr>
+                                   </tbody>
+                    {% endfor %}
+                </table>
+            {% endif %}
+                <div class="container mainhome" action="/login" style="margin-top: 50px;">
+                    {% for r in results %}
+                        {% if r in sections %}
+                            <strong>Section: {{r.section_name}}</strong><br/><br/>
+                            {{r.section_description}}<br/><br/>Books in the searched section
+                        {% endif %}
+                        {% if r in authors %}
+                            <strong>Author: {{r.author_name}}</strong><br/><br/>
+                            {{r.author_description}}<br/><br/>Books written by the searched author
+                        {% endif %}
+                        <div class="row" style="margin-bottom: 50px;">
+                                {% for j in range(r.books | length ) %}
+                                    <div class="col colimghome">
+                                        <a href="/{{user.usr_id}}/books/{{r.books[j].book_id}}">
+                                            <div class="divincol">
+                                                <img src="../static/singlebook.png" height="210px">
+                                                <div class="imglabel">
+                                                    {{r.books[j].book_name}}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+    </div>
+</body>
+</html>

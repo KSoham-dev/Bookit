@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {{user.f_name}} | Books </title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>{{user.f_name}} | Profile</title>
+    <style>
+        @import url("../static/style.css");
+        .leftcolup{
+      background-image: url("../static/userbg.png");
+    }
+    .inp{
+        width: 500px
+    }
+    .submit{
+        width: 250px;
+    }
+    .exceedmsg{
+        margin-bottom: 20px;
+    }
+
+   </style>
+</head>
+<body>
+    <nav class="navbar">
+        <img class="imglogo" class="logohome" src="../static/Bookitwh.png" />
+        
+        <form autocomplete="off" class="d-flex search" role="search" method="POST" action="/{{user.usr_id}}/search">
+            <input class="inp1" type="search" name="search" placeholder="&#x1F50E;&#xFE0E; Type and press enter to search">
+        </form>
+    
+        <div class="linklist">
+            <ul>
+                <li class="navbar_links">   <a href="/{{user.usr_id}}/home" class="navicons"> <img src="../../static/home-5-line.png" alt="home icon"/> </a></li>
+                {% if user.role == "librarian" %}
+                    <li class="navbar_links">  <a href="/lib/{{user.usr_id}}/profile" class="navicons" style="border-bottom: 2px solid rgb(255,255,255); padding: 10px;"> <img src="../../static/user-line.png" alt="user icon"/> Hello, {{user.f_name}} </a> </li>
+
+                {% else %}
+                    <li class="navbar_links">  <a href="/{{user.usr_id}}/profile" class="navicons" style="border-bottom: 2px solid rgb(255,255,255); padding: 10px;"> <img src="../../static/user-line.png" alt="user icon"/> Hello, {{user.f_name}} </a> </li>
+                {% endif %}
+                {% if user.role == "user" %}
+                    <li class="navbar_links">   <a href="/{{user.usr_id}}/cart" class="navicons"> <img src="../../static/shopping-cart-line.png" alt="shopping cart"/> </a></li>
+                {% endif %}
+<li class="navbar_links">   <a href="/{{user.usr_id}}/logout" class="navicons"> <img src="../../static/logout.png" alt="logout"/> </a></li>
+        </ul>
+        </div>
+    </nav>
+
+    <div class="bgup">
+
+            <div class="row mainrowup">
+                
+                <div class="col-5 leftcolup">
+                    <div class="lefttextup">
+                        <img src="../static/user-line-black-big.png" alt="Big user icon" class="usriconup"/>
+                        <span class="usernameup"><h1 class="display-6">{{user.f_name}}  {{user.l_name}}</h1></span>
+                        <span class="emailup"><h5>{{user.email}}</h5></span>
+                        <div class="usrmenu">
+                            <ul style="list-style-type: none;">
+                                    <li class="usrmenu_links">   <a href="/{{user.usr_id}}/profile"> Edit Profile </a></li><br/>
+                                    <li class="usrmenu_links">  <a href="/{{user.usr_id}}/books"> My Books </a> </li><br/>
+                                    <li class="usrmenu_links">   <a href="/{{user.usr_id}}/books_req" style="border-bottom: 2px solid rgb(0,0,0); padding-bottom: 10px;"> Books requested </a></li><br/>
+
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                    
+                <div class="col rightcolup bookstable">
+                    <header class="display-4""> Requested Books </header><br /><br /><br />
+                    {% if (user.books_requested | length >= 5)  %}
+                        <div class="exceedmsg">You have reached maximum number of books that a user can request i.e. {{user.books_requested | length }} books, please withdraw any of the below request to request more books</div>
+                    {% endif %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"> Index </th>
+                                <th scope="col"> Book Name </th>
+                                <th scope="col"> Authors </th>
+                                <th scope="col"> Action </th>
+                            </tr>
+                        </thead>
+                        {% for book in books %}
+                        <tbody>
+                            <tr>
+                                <th scope="row" > {{loop.index}} </td>
+                                    <td> <a href="/{{user.usr_id}}/books/{{book.book_id}}" style="border-bottom: 1px solid black; padding-bottom: 2px;">{{book.book_name}}</a> </td>
+                                <td> 
+                                    {% for author in book.author %} 
+                                    {{author.author_name}}
+                                    {% if not loop.last %}
+                                        ,
+                                    {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td scope="col"> <a class="btn btn-outline-primary btn-sm" href="/{{user.usr_id}}/user/withdraw_req/{{book.book_id}}"> Withdraw </a> </td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                    <a class="btn btn-outline-primary btn-sm" href="/{{user.usr_id}}/home" style="margin-top: 70px;"> Browse More Books </a> </td>
+                </div>
+            </div>
+    </div>
+    <footer>
+        <img src="../static/copyright-line.png"> Bookit, 2024. All rights reserved
+        <a href="/about" style="color: rgb(255,255,255); position: absolute; left: 1300px;"> About us </a>
+    </footer>
+</body>
+</html>
+</body>
+</html>

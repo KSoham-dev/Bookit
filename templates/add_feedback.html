@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Add Feedback</title>
+    <style>
+        @import url("../../../static/style.css");
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="col"></div>
+        <div class="col">
+            <div class="col fform">
+                <header class="display-4" style="margin-top: 50px;"> Add Feedback </header><br /><br /><br />
+                <form autocomplete="off" method="POST">
+                    <strong><label for="usrname" class="flabel"> Your Name </label></strong><br /><br />
+                    <input type="text" name="usrname" value="{{user.f_name}} {{user.l_name}}" class="finp" disabled><br /><br /><br />
+                    <strong><label for="bookname" class="flabel"> Book Name </label></strong><br /><br />
+                    <input type="text" name="bookname" value="{{book.book_name}}" class="finp" disabled><br /><br /><br />
+                    <strong><label for="feedback" style="position: relative; right: 100px;"> Your Feedback </label></strong><br /><br />
+                    <input type="text" name="feedback" placeholder="Very intresting book !!!" class="finp"  required><br /><br /><br />
+                    
+                    <input type="submit" value="Add" class="submit" style="width: 200px;">
+                </form>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</body>
+</html>
