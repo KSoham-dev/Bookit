@@ -97,9 +97,9 @@ def user_profile(user_id):
         user = db.session.get(User,user_id)
         if user.is_active:
             if request.method == "POST":
-                if (request.form.get("uptpass") == usr.password):
-                    usr.f_name = request.form.get("uptfname")
-                    usr.l_name = request.form.get("uptlname")
+                if (request.form.get("uptpass") == user.password):
+                    user.f_name = request.form.get("uptfname")
+                    user.l_name = request.form.get("uptlname")
                     db.session.commit()
             return  render_template("user_profile.html", user=user)
         else:
